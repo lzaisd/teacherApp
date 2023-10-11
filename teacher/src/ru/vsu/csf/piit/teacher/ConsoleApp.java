@@ -1,27 +1,28 @@
 package ru.vsu.csf.piit.teacher;
 
+import ru.vsu.csf.piit.teacher.controller.GroupController;
+import ru.vsu.csf.piit.teacher.controller.StudentController;
 import ru.vsu.csf.piit.teacher.objects.Group;
 import ru.vsu.csf.piit.teacher.objects.Student;
-import ru.vsu.csf.piit.teacher.repository.GroupRepositoryConsole;
-import ru.vsu.csf.piit.teacher.repository.StudentRepositoryConsole;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class ConsoleApp {
     private static Scanner in = new Scanner(System.in);
-    private static GroupRepositoryConsole groups = new GroupRepositoryConsole(initGroups());
-    private static StudentRepositoryConsole students = new StudentRepositoryConsole(initStudents());
+    private static GroupController groups = new GroupController();
+    private static StudentController students = new StudentController();
 
     public static void startConsoleApp() {
+        initGroups();
+        initStudents();
         while (true) {
             outputCommands();
             executeCommand();
         }
     }
 
-    private static void outputCommands(){
+    private static void outputCommands() {
         System.out.println("""
                 ¬ведите команду:\s
                  1 - показать все группы\s
@@ -36,7 +37,7 @@ public class ConsoleApp {
                  10 - завершить программу""");
     }
 
-    private static void executeCommand(){
+    private static void executeCommand() {
         String command = in.next();
         switch (command) {
             case ("1"):
@@ -75,7 +76,7 @@ public class ConsoleApp {
 
     }
 
-    private static Student changeTaskStatus(){
+    private static Student changeTaskStatus() {
         System.out.println("¬ведите через пробел ID студента, номер задачи и 1, чтобы отметить задачу сданной, 0 - не сданной");
         String ID = in.next();
         String num = in.next();
@@ -83,68 +84,63 @@ public class ConsoleApp {
         return students.changeTaskStatusByStudentID(Integer.parseInt(ID), Integer.parseInt(num), Integer.parseInt(isPassed) == 1);
     }
 
-    private static Student addStudent(){
-        System.out.println("¬ведите ID студента, фамилию и номер группы через пробел");
-        String ID = in.next();
+    private static Student addStudent() {
+        System.out.println("¬ведите фамилию студента и номер группы через пробел");
         String surname = in.next();
         String num = in.next();
-        return students.addStudent(Integer.parseInt(ID), surname, Integer.parseInt(num));
+        return students.addStudent(surname, Integer.parseInt(num));
     }
 
-    private static Student deleteStudentByID(){
+    private static Student deleteStudentByID() {
         System.out.println("¬ведите ID студента");
         String command = in.next();
         return students.deleteStudentByID(Integer.parseInt(command));
     }
 
-    private static Student getStudentByID(){
+    private static Student getStudentByID() {
         System.out.println("¬ведите ID студента");
         String command = in.next();
         return students.getStudentByID(Integer.parseInt(command));
     }
 
-    private static List<Student> getStudentsByGroup(){
+    private static List<Student> getStudentsByGroup() {
         System.out.println("¬ведите номер группы");
         String command = in.next();
         return students.getStudentsByGroup(Integer.parseInt(command));
     }
 
-    private static Group addGroup(){
-        System.out.println("¬ведите ID и номер группы через пробел");
-        String ID = in.next();
+    private static Group addGroup() {
+        System.out.println("¬ведите номер группы");
         String num = in.next();
-        return groups.addGroup(Integer.parseInt(ID), Integer.parseInt(num));
+        return groups.addGroup(Integer.parseInt(num));
     }
 
-    private static Group getGroupByID(){
+    private static Group getGroupByID() {
         System.out.println("¬ведите ID группы");
         String command = in.next();
         return groups.getGroupByID(Integer.parseInt(command));
     }
 
-    private static Group deleteGroupByID(){
+    private static Group deleteGroupByID() {
         System.out.println("¬ведите ID группы");
         String command = in.next();
         return groups.deleteGroupByID(Integer.parseInt(command));
     }
 
-    private static List<Group> initGroups(){
-        List<Group> g = new ArrayList<>();
-        g.add(new Group(100, 1));
-        g.add(new Group(101, 2));
-        g.add(new Group(102, 3));
-        g.add(new Group(103, 4));
-        return g;
+    private static void initGroups() {
+        groups.getAllGroups().add(new Group(1));
+        groups.getAllGroups().add(new Group( 2));
+        groups.getAllGroups().add(new Group(3));
+        groups.getAllGroups().add(new Group(4));
     }
-    private static List<Student> initStudents(){
-        List<Student> s = new ArrayList<>();
-        s.add(new Student(200, "јпрпор", 1));
-        s.add(new Student(201, "ƒророа", 1));
-        s.add(new Student(202, "÷жаава", 2));
-        s.add(new Student(203, "Ёоавоа", 2));
-        s.add(new Student(204, "јпрпор", 2));
-        s.add(new Student(205, "¬авпапп", 3));
-        s.add(new Student(206, "…апаррп", 4));
-        return s;
+
+    private static void initStudents() {
+        students.getAllStudents().add(new Student("јпрпор", 1));
+        students.getAllStudents().add(new Student("ƒророа", 1));
+        students.getAllStudents().add(new Student("÷жаава", 2));
+        students.getAllStudents().add(new Student("Ёоавоа", 2));
+        students.getAllStudents().add(new Student("јпрпор", 2));
+        students.getAllStudents().add(new Student("¬авпапп", 3));
+        students.getAllStudents().add(new Student("…апаррп", 4));
     }
 }

@@ -8,6 +8,6 @@ public interface GroupRepository {
     List<Group> getAllGroups();
     Group getGroupByID(int ID);
     Group deleteGroupByID(int ID);
-    Group addGroup(int ID, int num);
+    Group addGroup(int num);
     
 }

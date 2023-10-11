@@ -2,13 +2,22 @@ package ru.vsu.csf.piit.teacher.repository;
 
 import ru.vsu.csf.piit.teacher.objects.Group;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class GroupRepositoryConsole implements GroupRepository {
+    private static GroupRepositoryConsole INSTANCE;
     private List<Group> groups;
 
-    public GroupRepositoryConsole(List<Group> groups) {
-        this.groups = groups;
+    private GroupRepositoryConsole() {
+        this.groups = new ArrayList<Group>();
+    }
+
+    public static GroupRepositoryConsole getInstance(){
+        if (INSTANCE == null) {
+            INSTANCE = new GroupRepositoryConsole();
+        }
+        return INSTANCE;
     }
 
     @Override
@@ -34,8 +43,8 @@ public class GroupRepositoryConsole implements GroupRepository {
     }
 
     @Override
-    public Group addGroup(int ID, int num) {
-        Group g = new Group(ID, num);
+    public Group addGroup(int num) {
+        Group g = new Group(num);
         groups.add(g);
         return g;
     }

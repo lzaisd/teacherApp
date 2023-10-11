@@ -6,10 +6,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StudentRepositoryConsole implements StudentRepository{
-    List<Student> students;
+    private static StudentRepositoryConsole INSTANCE;
+    private List<Student> students;
 
-    public StudentRepositoryConsole(List<Student> students) {
-        this.students = students;
+    private StudentRepositoryConsole() {
+        this.students = new ArrayList<Student>();
+    }
+
+    public static StudentRepositoryConsole getInstance(){
+        if (INSTANCE == null) {
+            INSTANCE = new StudentRepositoryConsole();
+        }
+        return INSTANCE;
     }
 
     @Override
@@ -46,8 +54,8 @@ public class StudentRepositoryConsole implements StudentRepository{
     }
 
     @Override
-    public Student addStudent(int ID, String FIO, int num_group) {
-        Student s = new Student(ID, FIO, num_group);
+    public Student addStudent(String surname, int num_group) {
+        Student s = new Student(surname, num_group);
         students.add(s);
         return s;
     }
